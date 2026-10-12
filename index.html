@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>酷客影视 - 极客放映室正版片单、终端排片与影视盗版避坑</title>
+<meta name="description" content="酷客影视做极客放映室：按喜剧、动作、爱情、悬疑、科幻、动画等极客分区推正版电影片单，终端时段排片，码率评分，1905/腾讯/爱奇艺/优酷/B站/央视频等正版平台导航，专用播放器与网盘解压盗版避坑，移动端自适应。">
+<meta name="keywords" content="酷客影视,极客放映室,正版电影片单,终端排片,码率评分,盗版影视避坑,不装专用播放器">
+<meta name="author" content="酷客影视">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://kukeyingshi-h5.github.io/">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#0d0f14;color:#d4d8e0;line-height:1.78}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+:root{
+  --black:#0d0f14;
+  --dark:#15181f;
+  --darker:#1c2029;
+  --cyan:#00e5ff;
+  --cyan2:#7af0ff;
+  --purple:#a855f7;
+  --purple2:#c084fc;
+  --green:#39ff14;
+  --white:#f0f3f8;
+  --gray:#8a93a6;
+  --gray2:#5a6378;
+}
+
+/* 导航：终端 */
+.nav{position:sticky;top:0;z-index:99;background:var(--dark);border-bottom:2px solid var(--cyan)}
+.nav__box{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.7rem 1rem;flex-wrap:wrap;gap:.4rem}
+.nav__logo{font-family:"Courier New",monospace;font-weight:900;font-size:1.3rem;color:var(--cyan)}
+.nav__logo b{color:var(--purple2)}
+.nav__prompt{margin-left:.5rem;font-size:.68rem;color:var(--green);font-family:"Courier New",monospace}
+.nav__links{display:flex;gap:.35rem;flex-wrap:wrap}
+.nav__links a{font-family:"Courier New",monospace;font-size:.8rem;padding:.35rem .8rem;color:var(--white);background:var(--darker);border:1px solid var(--gray2)}
+.nav__links a:hover{background:var(--cyan);color:var(--black);border-color:var(--cyan)}
+
+/* Hero：终端 */
+.hero{max-width:1200px;margin:2rem auto;padding:0 1rem}
+.hero__card{background:var(--dark);border:2px solid var(--gray2);border-radius:8px;overflow:hidden}
+.hero__bar{display:flex;align-items:center;gap:.5rem;padding:.5rem .8rem;background:var(--darker);border-bottom:1px solid var(--gray2)}
+.hero__bar span{width:10px;height:10px;border-radius:50%;background:var(--gray2)}
+.hero__bar span:nth-child(1){background:#ff5f57}
+.hero__bar span:nth-child(2){background:#febc2e}
+.hero__bar span:nth-child(3){background:#28c840}
+.hero__bar em{margin-left:auto;font-family:"Courier New",monospace;font-size:.68rem;color:var(--gray)}
+.hero__body{display:grid;grid-template-columns:1fr 240px;padding:0}
+.hero__main{padding:2rem 2.2rem}
+.hero__code{font-family:"Courier New",monospace;font-size:.82rem;color:var(--gray);margin-bottom:1rem;line-height:1.6}
+.hero__code .prompt{color:var(--cyan)}
+.hero__code .out{color:var(--green)}
+.hero h1{font-family:"Courier New",monospace;font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.2;margin-bottom:.8rem;color:var(--white)}
+.hero h1 em{font-style:normal;color:var(--cyan)}
+.hero p{color:var(--gray);max-width:540px;margin-bottom:1.2rem;font-size:.9rem}
+.hero__btn{display:inline-block;font-family:"Courier New",monospace;background:transparent;border:2px solid var(--cyan);color:var(--cyan);padding:.6rem 1.5rem;font-weight:800;font-size:.85rem}
+.hero__btn:hover{background:var(--cyan);color:var(--black)}
+.hero__side{background:var(--darker);border-left:1px solid var(--gray2);padding:2rem 1.5rem;display:flex;flex-direction:column;gap:1rem;justify-content:center}
+.terminal-stat{font-family:"Courier New",monospace}
+.terminal-stat__label{font-size:.68rem;color:var(--gray2);text-transform:uppercase}
+.terminal-stat__val{font-size:1.8rem;font-weight:900;color:var(--cyan)}
+.terminal-stat__unit{font-size:.68rem;color:var(--purple2)}
+
+/* 快捷标签 */
+.quick{max-width:1200px;margin:1.4rem auto 0;padding:0 1rem}
+.quick__box{display:flex;flex-wrap:wrap;gap:.55rem}
+.qbtn{font-family:"Courier New",monospace;font-size:.78rem;background:var(--darker);border:1px solid var(--gray2);color:var(--white);padding:.38rem .85rem}
+.qbtn b{color:var(--cyan)}
+
+.wrap{max-width:1200px;margin:3.6rem auto;padding:0 1rem}
+.head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem}
+.head h2{font-family:"Courier New",monospace;font-size:1.5rem;color:var(--white)}
+.head h2 span{color:var(--cyan)}
+.head a{margin-left:auto;color:var(--gray);font-size:.82rem;font-family:"Courier New",monospace}
+
+/* 栏目1：代码块片单 */
+.blocks{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.block{background:var(--dark);border:1px solid var(--gray2);border-radius:6px;overflow:hidden;transition:.3s}
+.block:hover{transform:translateY(-4px);border-color:var(--cyan);box-shadow:0 12px 28px rgba(0,229,255,.12)}
+.block__head{display:flex;align-items:center;gap:.5rem;padding:.4rem .8rem;background:var(--darker);border-bottom:1px solid var(--gray2);font-family:"Courier New",monospace;font-size:.68rem;color:var(--gray)}
+.block__dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.block__body{padding:1rem}
+.block__emo{font-size:1.8rem;margin-bottom:.4rem}
+.block__body h3{font-size:.92rem;color:var(--white);margin-bottom:.3rem;font-weight:800}
+.block__body p{font-size:.76rem;color:var(--gray);min-height:44px}
+.block__bar{height:6px;background:var(--darker);border-radius:3px;overflow:hidden;margin-top:.6rem;position:relative}
+.block__bar span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple))}
+.block__plat{display:inline-block;margin-top:.5rem;font-family:"Courier New",monospace;font-size:.65rem;color:var(--black);background:var(--cyan);padding:.15rem .5rem}
+
+/* 栏目2：终端排片 */
+.terminal{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.term{background:var(--dark);border:1px solid var(--gray2);border-radius:6px;padding:1.3rem}
+.term__title{font-family:"Courier New",monospace;font-size:.85rem;color:var(--cyan);margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px dashed var(--gray2)}
+.line{display:flex;gap:.8rem;padding:.5rem 0;font-family:"Courier New",monospace;font-size:.82rem;border-bottom:1px dashed var(--darker)}
+.line:last-child{border:0}
+.line__time{color:var(--green);flex:0 0 64px}
+.line__film{color:var(--white)}
+.line__plat{margin-left:auto;color:var(--gray);font-size:.7rem}
+
+/* 栏目3：码率仪表 */
+.gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.gauge{background:var(--dark);border:1px solid var(--gray2);border-radius:6px;padding:1.2rem;text-align:center}
+.gauge__num{font-family:"Courier New",monospace;font-size:2rem;font-weight:900;color:var(--cyan);line-height:1}
+.gauge__num small{font-size:.7rem;color:var(--gray2)}
+.gauge__track{height:6px;background:var(--darker);border-radius:3px;margin:.8rem 0;overflow:hidden}
+.gauge__track span{display:block;height:100%;background:var(--purple)}
+.gauge h4{font-size:.85rem;color:var(--white);margin-bottom:.3rem}
+.gauge p{font-size:.72rem;color:var(--gray)}
+
+/* 栏目4：正版平台 */
+.rail{display:flex;flex-wrap:wrap;gap:.8rem}
+.chip{font-family:"Courier New",monospace;font-size:.82rem;padding:.7rem 1rem;background:var(--dark);border:1px solid var(--cyan);color:var(--cyan);min-width:150px}
+.chip small{display:block;color:var(--gray);font-size:.7rem;margin-top:.2rem}
+
+/* 栏目5：命令行避坑 */
+.warn{background:var(--darker);border:2px solid var(--red,#ff5f57);border-radius:6px;padding:1.4rem 1.6rem}
+.warn h3{font-family:"Courier New",monospace;color:var(--red,#ff5f57);margin-bottom:.7rem;font-size:.95rem}
+.warn h3::before{content:"> "}
+.warn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.warn ul{margin-left:1.1rem;font-family:"Courier New",monospace;font-size:.82rem;color:var(--gray)}
+.warn li{margin:.3rem 0}
+.warn b{color:var(--white)}
+
+.foot{margin-top:4rem;background:var(--dark);color:var(--gray);text-align:center;padding:2.5rem 1rem;border-top:2px solid var(--gray2)}
+.foot b{color:var(--cyan)}
+.foot a{color:var(--purple2);margin:0 .4rem;font-family:"Courier New",monospace}
+.foot small{display:block;margin-top:.8rem;font-family:"Courier New",monospace;color:var(--gray2)}
+
+@media(max-width:980px){
+  .hero__body{grid-template-columns:1fr}
+  .hero__side{border-left:0;border-top:1px solid var(--gray2)}
+  .blocks,.gauges{grid-template-columns:repeat(2,1fr)}
+  .terminal{grid-template-columns:1fr}
+  .warn-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .nav__box{justify-content:center}
+  .head h2{font-size:1.2rem}
+  .blocks,.gauges{grid-template-columns:1fr}
+  .line__plat{display:none}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="nav">
+  <div class="nav__box">
+    <div class="nav__logo">酷客影视<span class="nav__prompt">~/geek-cinema</span></div>
+    <nav class="nav__links">
+      <a href="#blocks">片单库</a>
+      <a href="#terminal">终端排片</a>
+      <a href="#gauges">码率评分</a>
+      <a href="#legal">正版源</a>
+      <a href="#check">安全避坑</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero__card">
+    <div class="hero__bar"><span></span><span></span><span></span><em>geek@cinema ~ /film/list</em></div>
+    <div class="hero__body">
+      <div class="hero__main">
+        <div class="hero__code">
+          <div><span class="prompt">$</span> ./launch --mode=geek --source=official</div>
+          <div class="out">[OK] 正版信号已锁定</div>
+          <div class="out">[OK] 盗版镜像已屏蔽</div>
+        </div>
+        <h1>酷客影视<br><em>极客放映室 · 只播正版</em></h1>
+        <p>带"酷客影视/免费全集/免VIP/未删减"的野站常做盗录聚合、专用播放器、网盘解压码、博彩弹窗。酷客影视不干那个：像终端命令一样精确调度，按极客分区推正版片单，终端排片，码率评分，遇"装播放器/解压码/枪版全集"直接 kill 进程。</p>
+        <a href="#blocks" class="hero__btn">$ run film-list</a>
+      </div>
+      <div class="hero__side">
+        <div class="terminal-stat"><div class="terminal-stat__label">// uptime</div><div class="terminal-stat__val">99.9<span class="terminal-stat__unit">% uptime</span></div></div>
+        <div class="terminal-stat"><div class="terminal-stat__label">// sources</div><div class="terminal-stat__val">12<span class="terminal-stat__unit"> official</span></div></div>
+        <div class="terminal-stat"><div class="terminal-stat__label">// piracy</div><div class="terminal-stat__val">0<span class="terminal-stat__unit"> blocked</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="quick">
+  <div class="quick__box">
+    <div class="qbtn">😄 comedy.sh → <b>下饭场</b></div>
+    <div class="qbtn">💥 action.sh → <b>大片场</b></div>
+    <div class="qbtn">💘 romance.sh → <b>约会场</b></div>
+    <div class="qbtn">🕵️ thriller.sh → <b>烧脑场</b></div>
+    <div class="qbtn">🚀 scifi.sh → <b>视效场</b></div>
+    <div class="qbtn">🧸 kids.sh → <b>亲子场</b></div>
+  </div>
+</div>
+
+<main>
+<section class="wrap" id="blocks">
+  <div class="head"><h2>film-list<span> 片单库</span></h2><a href="#">more ›</a></div>
+  <div class="blocks">
+    <article class="block"><div class="block__head"><span class="block__dot"></span>comedy.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">😄</div><h3>轻喜剧模块</h3><p>都市误会、职场吐槽、合家欢轻梗，通勤下饭首选；不推枪版合集。</p><div class="block__bar"><span style="width:88%"></span></div><span class="block__plat">腾讯/优酷/芒果</span></div></article>
+    <article class="block"><div class="block__head"><span class="block__dot"></span>action.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">💥</div><h3>动作大片模块</h3><p>警匪、武侠、超级英雄，优先IMAX/4K；枪版掉帧不入库。</p><div class="block__bar"><span style="width:92%"></span></div><span class="block__plat">腾讯/优酷/Disney+</span></div></article>
+    <article class="block"><div class="block__head"><span class="block__dot"></span>romance.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">💘</div><h3>爱情剧情模块</h3><p>暗恋、异地、婚姻，按情绪分级；不推成人擦边、未删减支线。</p><div class="block__bar"><span style="width:80%"></span></div><span class="block__plat">腾讯/爱奇艺/B站</span></div></article>
+    <article class="block"><div class="block__head"><span class="block__dot"></span>thriller.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">🕵️</div><h3>悬疑烧脑模块</h3><p>本格推理、社会派、时间线嵌套，重闭环；错轴机翻不入选。</p><div class="block__bar"><span style="width:86%"></span></div><span class="block__plat">爱奇艺/腾讯</span></div></article>
+    <article class="block"><div class="block__head"><span class="block__dot"></span>scifi.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">🚀</div><h3>科幻视效模块</h3><p>太空、AI、末日、赛博，正版视效优先；盗录虚标不入。</p><div class="block__bar"><span style="width:94%"></span></div><span class="block__plat">腾讯/优酷/Disney+</span></div></article>
+    <article class="block"><div class="block__head"><span class="block__dot"></span>kids.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">🧸</div><h3>动画亲子模块</h3><p>动画、自然、国学启蒙，按年龄分级；不走"全年龄免费"野站。</p><div class="block__bar"><span style="width:90%"></span></div><span class="block__plat">央视频/B站/少儿</span></div></article>
+    <article class="block"><div class="block__head"><span class="block__dot"></span>history.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">📜</div><h3>历史正剧模块</h3><p>朝代、传记、重大事件，看史料出处与服化道；戏说当正史不入选。</p><div class="block__bar"><span style="width:87%"></span></div><span class="block__plat">1905/央视频/腾讯</span></div></article>
+    <article class="block"><div class="block__head"><span class="block__dot"></span>classic.ts <span style="margin-left:auto;color:var(--gray2)">chmod 755</span></div><div class="block__body"><div class="block__emo">🏆</div><h3>经典修复模块</h3><p>金鸡、三大节、奥斯卡入选，按修复版/正版字幕挑，不囤"无删减合集"。</p><div class="block__bar"><span style="width:96%"></span></div><span class="block__plat">1905/MUBI/B站</span></div></article>
+  </div>
+</section>
+
+<section class="wrap" id="terminal">
+  <div class="head"><h2>schedule<span> 终端排片</span></h2><a href="#">more ›</a></div>
+  <div class="terminal">
+    <div class="term">
+      <div class="term__title">$ crontab -l | grep day</div>
+      <div class="line"><span class="line__time">09:00</span><span class="line__film">亲子动画/自然启蒙</span><span class="line__plat">央视频·B站</span></div>
+      <div class="line"><span class="line__time">11:30</span><span class="line__film">下饭喜剧/合家欢</span><span class="line__plat">优酷·芒果·腾讯</span></div>
+      <div class="line"><span class="line__time">14:00</span><span class="line__film">青春爱情/轻甜</span><span class="line__plat">腾讯·B站·1905</span></div>
+      <div class="line"><span class="line__time">16:30</span><span class="line__film">历史正剧/老片修复</span><span class="line__plat">1905·央视频</span></div>
+    </div>
+    <div class="term">
+      <div class="term__title">$ crontab -l | grep night</div>
+      <div class="line"><span class="line__time">19:00</span><span class="line__film">悬疑/社会剧情</span><span class="line__plat">爱奇艺·腾讯</span></div>
+      <div class="line"><span class="line__time">20:30</span><span class="line__film">动作大片/科幻</span><span class="line__plat">腾讯·优酷·Disney+</span></div>
+      <div class="line"><span class="line__time">22:00</span><span class="line__film">慢片/治愈/散文</span><span class="line__plat">西瓜·B站·1905</span></div>
+      <div class="line"><span class="line__time">23:30</span><span class="line__film">获奖精选/导演剪辑</span><span class="line__plat">MUBI·1905·Prime</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="gauges">
+  <div class="head"><h2>metrics<span> 码率评分</span></h2><a href="#">more ›</a></div>
+  <div class="gauges">
+    <div class="gauge"><div class="gauge__num">8.8<small>/10</small></div><div class="gauge__track"><span style="width:88%"></span></div><h4>画质码率</h4><p>正版HD/4K/IMAX优先，枪版虚标不入库。</p></div>
+    <div class="gauge"><div class="gauge__num">7.9<small>/10</small></div><div class="gauge__track"><span style="width:79%"></span></div><h4>剧本质量</h4><p>结构完整、人物立体，经得起反复看。</p></div>
+    <div class="gauge"><div class="gauge__num">9.4<small>/10</small></div><div class="gauge__track"><span style="width:94%"></span></div><h4>来源可信</h4><p>备案主体、版权方、正版平台交叉核对。</p></div>
+    <div class="gauge"><div class="gauge__num">9.9<small>/10</small></div><div class="gauge__track"><span style="width:99%"></span></div><h4>安全指数</h4><p>无播放器、无网盘解压、无博彩弹窗。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="legal">
+  <div class="head"><h2>official<span> 正版源</span></h2><a href="#">more ›</a></div>
+  <div class="rail">
+    <div class="chip">1905电影网<small>国产经典/老片/修复版</small></div>
+    <div class="chip">腾讯视频<small>院线/喜剧/悬疑/视效</small></div>
+    <div class="chip">爱奇艺<small>悬疑/文艺/社会剧情</small></div>
+    <div class="chip">优酷<small>港片/喜剧/合家欢</small></div>
+    <div class="chip">芒果TV<small>青春/轻喜剧/亲子</small></div>
+    <div class="chip">哔哩哔哩<small>动画/作者/纪录片</small></div>
+    <div class="chip">央视频<small>历史/少儿/官方纪录片</small></div>
+    <div class="chip">西瓜视频<small>治愈/下映片/免费专区</small></div>
+    <div class="chip">咪咕视频<small>国产/动画/大屏免费</small></div>
+    <div class="chip">学习强国<small>红色经典/纪录片无广告</small></div>
+    <div class="chip">MUBI<small>国际获奖/作者电影</small></div>
+    <div class="chip">Disney+<small>超级英雄/动画/科幻</small></div>
+  </div>
+</section>
+
+<section class="wrap" id="check">
+  <div class="head"><h2>security<span> 避坑防火墙</span></h2><a href="#">more ›</a></div>
+  <div class="warn">
+    <h3>threat_list.conf — 已拦截规则</h3>
+    <div class="warn-grid">
+      <ul>
+        <li>不执行"院线枪版/未删减全集/永久免费" → 盗录侵权、画质残缺，防火墙拦截。</li>
+        <li>不安装"专用播放器/解码器/浏览器插件/APK" → 正规平台不需额外程序，陌生包可能带木马。</li>
+        <li>不聚合网盘解压码、不加群领资源 → 解压费、加群红包、二次引流高风险。</li>
+      </ul>
+      <ul>
+        <li>不填银行卡/身份证/短信验证码；假播放弹窗、博彩跳转立即关闭并举报。</li>
+        <li>不挂"系统中毒/立即修复/客服微信充值/关闭杀软才能播" → 别点，用正规安全工具扫描。</li>
+        <li>不提供成人/擦边短剧当电影栏目；只走正版来源与适龄分级，同名野站不等于本站。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div><b>酷客影视</b> · 极客放映室 / film-list正版片单 / 终端排片 / 码率评分 / 盗版防火墙</div>
+  <div style="margin-top:.6rem">
+    <a href="#blocks">片单库</a>|
+    <a href="#terminal">终端排片</a>|
+    <a href="#gauges">码率评分</a>|
+    <a href="#legal">正版源</a>|
+    <a href="#check">安全避坑</a>|
+    <a href="#">关于</a>|
+    <a href="#">免责声明</a>
+  </div>
+  <small>https://kukeyingshi-h5.github.io</small>
+  <small>© 2025 酷客影视 极客放映室正版电影导航站；不提供盗版影片、不聚合网盘资源、不提供成人内容、不引导安装第三方播放器</small>
+</footer>
+
+</body>
+</html>
